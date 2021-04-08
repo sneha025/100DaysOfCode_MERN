@@ -36,19 +36,37 @@
  * Escape from Evil callback hell
  */
 
-const { readFile, writeFile } = require("fs").promises;
+const { readFile, writeFile } = require("fs");
 
-// async function readFromFile() {
-//   const result = await readFile("../Content/first.txt", "utf8");
-//   console.log(result);
-//   return result;
-// }
+function readFromFile(path) {
+  return new Promise((resolve, reject) => {
+    readFile(path, "utf8", (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+}
 
-// async function writeFileFrom(text) {
-//   const result = await writeFile(
-//     "../Content/async-result-await.txt",
-//     `${text}`
-//   );
-//   return result;
-// }
-// writeFileFrom(readFromFile());
+function writeintoFile(path, data) {
+  return new Promise((resolve, reject) => {
+    writeFile(path, `${data}`, (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+}
+
+const work = async () => {
+  const data = await readFromFile("../Content/first.txt");
+  console.log(data);
+  writeintoFile("../Content/async-result-await.txt", data);
+  return data;
+};
+work();
+exports.work = work;

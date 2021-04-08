@@ -1,1 +1,2 @@
-[object Promise]
+Hello  this is first file for testing fs modlues.
+ 
